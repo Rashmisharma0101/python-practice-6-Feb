@@ -1,0 +1,284 @@
+Part 1: Pandas – groupby
+Question 1:
+
+You have this data of sales:
+
+Product	Region	Sales
+A	East	100
+B	East	150
+A	West	200
+B	West	50
+
+1. Task: Find total sales per product.
+
+sales_per_product = df.groupby('Product')['Sales'].sum().reset_index(name = 'total_sales')
+
+2. Find average sales per region.
+
+sales_per_region = df.groupby('Region')['Sales'].mean().reset_index(name = 'avg_sales')
+3. Two tables:
+Products:
+ProductID	Name
+1	A
+2	B
+
+Sales:
+ProductID	Sales
+1	100
+2	200
+
+Task: Combine tables to get Product Name with Sales.
+new_df = products.merge(Sales, on = 'ProductId', how = 'inner
+
+4. You have a column of numbers: [1, 2, 3, 4].
+Task: Square each number using lambda.
+
+list(map(lambda x : x*x for x in l))
+
+5. DataFrame with Name column: ['Alice', 'Bob']
+Task: Add a new column with the length of the name.
+
+df['new_col'] = df['Name'].apply(lambda x: len(x))
+
+6.Create a list of squares from 1 to 5.
+[x*x for x in l]
+
+Question 7:
+List only even numbers from 1 to 10.
+[x for x in range(1,11) if x % 2 == 0]
+
+
+Part 5: Dict comprehension
+Question 8:
+Create a dictionary of squares from 1 to 3.
+{x: x*x for x in range(1,4)}
+
+Question 9:
+
+Invert a dictionary {‘a’:1, 'b':2} → swap keys and values.
+{v:k, for k, v in d.items()}
+------------------------------------------------------------------------------------------
+1. Dept	Salary
+IT	50
+HR	40
+IT	60
+HR	50
+
+Write Pandas code to find total salary per department.
+new_df = df.groupby('Dept')['Salary'].sum().reset_index(name = 'total_salary')
+
+2. average salary per department.
+
+new_df = df.groupby('Dept')['Salary'].mean().reset_index(name = 'Avg_salary')
+
+3. count of rows per city.
+new_df = df.groupby('City').size().reset_index(name = 'rows_per_city')
+
+4. merge customers with orders keeping all customers.
+new = customers.merge(orders, on = 'CustId', how = 'left')
+
+5. Pandas code to perform a right join between df1 and df2 on column id.
+new = df1.merge(df2, on = 'Id', how = 'right')
+
+6. You have a column Age.
+Write code to create a new column Age_Group:
+"Adult" if age ≥ 18
+"Minor" otherwise
+
+df['Age_group'] = df['Age'].apply(lambda x: "Adult" if x>= 18 else "Minor")
+
+7. You have a column Salary.
+Write code to create a new column Salary_Tax which is 10% of salary.
+
+df['salary_tax'] = df['Salary'] *0.1
+
+8. Given a list l = [1, 2, 3, 4, 5, 6],
+write code to create a list of odd numbers only.
+
+[x for x in l if x%2 != 0 ]
+
+9. Create a list of lengths of each word in:
+words = ["data", "science", "ml"]
+
+[len(x) for x in words]
+
+10. nums = [1, 2, 3, 4]
+Create a dictionary where:
+key = number
+value = "even" or "odd"
+rsult = {x: "even" if x % 2 ==0 else "odd" for x  in nums}
+
+-----------------------------------------------------------------------------------
+Mental model (very important)
+
+List comprehension → “Compute everything now” stores in memeory all elemnets
+
+Generator → “Compute only when asked”, genertaes each element lazily , gets exhausted after 1 iteration, can not
+be reused unless recreated
+Why row count increases after merge
+What you said
+
+Missing on clause → Cartesian product
+
+outer join instead of inner
+
+✔️ First point is valid
+❌ Second point is NOT the main reason for row explosion
+
+An outer join can increase rows slightly, but it usually does not explode rows.
+
+The REAL two interview-grade reasons
+✅ Reason 1: Many-to-many join
+
+This is the most common cause.
+
+Example:
+
+Left table: User A appears 3 times
+
+Right table: User A appears 2 times
+
+After merge → 3 × 2 = 6 rows for User A
+
+This happens when the join key is not unique in either table.
+
+✅ Reason 2: Wrong or missing join key
+
+Missing on clause → Cartesian product
+
+Or joining on the wrong column (non-unique key)
+
+This causes combinatorial row growth.
+
+“The most common reason for an unexpected increase in rows after a merge is 
+a many-to-many join, where the join key is not unique in one or both DataFrames. 
+Another reason is using the wrong or missing join key, which can result in a Cartesian product. 
+Join type like outer vs inner
+affects row inclusion but is usually not the main cause of row explosion.”
+
+“Before merging, I usually check key
+uniqueness using value_counts() or duplicated() to avoid unintended many-to-many joins.”
+
+Q5. groupby + multiple aggregations
+
+Question:
+How do you compute sum and mean of Sales per Region in a single groupby?
+
+👉 Explain structure, not exact syntax first.
+
+Q6. apply row-wise vs column-wise
+
+Question:
+What is the difference between:
+
+#df.apply(func, axis=0)
+df.apply(lambda col: col.max() - col.min(), axis=0)
+#df.apply(func, axis=1)
+df['total'] = df.apply(lambda row: row['price'] + row['tax'], axis=1)
+
+
+“axis=0 applies the function to each column, while axis=1 applies it to each row.
+I prefer vectorized operations whenever possible and use apply(axis=1) 
+only when logic depends on multiple columns.”
+Give a real example for each.
+
+Q7. Python mutability trap
+
+Question:
+Why is this dangerous?
+
+def f(x, y=[]):
+    y.append(x)
+    return y
+
+
+What happens if you call f(1), f(2)?
+
+“In this function, the default argument y=[] is created only once at function definition time,
+not every time the function is called. So when the function is called the first time, 
+the value is appended to the same list. On subsequent calls, 
+the same list is reused, which is why values keep accumulating across calls.”
+
+Q8. Pandas null handling
+
+Question:
+Difference between:
+
+isnull()
+
+dropna()
+df.dropna()              # drops rows with any null
+df.dropna(axis=1)        # drops columns with nulls
+fillna()
+
+When would you use each?
+
+Q9. SQL vs Pandas thinking
+
+Question:
+How is groupby in Pandas similar to GROUP BY in SQL, and how is it different?
+
+Q10. Real-world thinking
+
+Key Differences (this is important)
+1️⃣ Output flexibility
+
+SQL:
+
+GROUP BY usually returns a final aggregated table
+
+Pandas:
+
+groupby returns a GroupBy object
+
+You can apply multiple operations, transform, filter, or merge results back
+
+👉 This is a strong point.
+
+2️⃣ Transformations
+
+SQL:
+
+Harder to do row-level transformations after grouping
+
+Pandas:
+
+You can use transform() to keep original row count
+
+Very useful for feature engineering
+
+3️⃣ Workflow
+
+SQL:
+
+Declarative (you describe what you want)
+
+Pandas:
+
+Imperative / procedural (you control how step by step)
+
+Question:
+If you had static data (no new incoming rows),
+what monitoring would you still talk about in a data science interview?
+
+“Even with static data, I can simulate production behavior by splitting the dataset into time-based chunks 
+and treating them as if they arrive periodically. I train the model on the initial chunk and then use subsequent 
+chunks as ‘future data’ to monitor model performance, prediction stability, and data drift. 
+This allows me to validate how the model would behave in a real-world scenario where data arrives daily,
+even though the dataset itself is static.”
+
+1️⃣ Data drift
+
+Feature distributions changing over chunks
+
+Example: mean, variance, category frequency
+
+2️⃣ Prediction drift
+
+Sudden change in prediction distribution
+
+Example: more high predictions than before
+
+3️⃣ Performance decay
+
+Compare metrics on later chunks vs initial test set
