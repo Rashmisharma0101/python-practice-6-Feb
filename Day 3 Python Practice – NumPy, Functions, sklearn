@@ -1,0 +1,686 @@
+{
+ "cells": [
+  {
+   "cell_type": "code",
+   "execution_count": 3,
+   "id": "463dcb4b-e09b-4e36-a568-08134dafde20",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# Day 3 Hands-on Practice\n",
+    "import numpy as np\n",
+    "import pandas as pd\n",
+    "\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "from sklearn.pipeline import Pipeline\n",
+    "from sklearn.preprocessing import StandardScaler\n",
+    "from sklearn.linear_model import LogisticRegression\n",
+    "from sklearn.metrics import accuracy_score, precision_score, recall_score\n"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 4,
+   "id": "ab5afe39-e49a-4159-8758-b37d1f5ac368",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[5 7 9]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# Exercise 1: Create arrays\n",
+    "\n",
+    "a = np.array([1,2,3])\n",
+    "b = np.array([4,5,6])\n",
+    "print(a+b)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 6,
+   "id": "f9a193e5-d5d5-4e01-9c3a-8eccbf60245a",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[0 1 2 3 4 5 6 7 8 9]\n",
+      "<class 'numpy.ndarray'>\n"
+     ]
+    }
+   ],
+   "source": [
+    "c = np.arange(0,10)\n",
+    "print(c)\n",
+    "print(type(c))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 7,
+   "id": "4b790eed-d658-4ed5-961d-e6234eeb6f3b",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "<class 'list'>\n"
+     ]
+    }
+   ],
+   "source": [
+    "c= [1,2,3,4]\n",
+    "print(type(c))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 8,
+   "id": "396ff388-2813-4fbe-a1dd-0680b2be5d90",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([0.  , 0.25, 0.5 , 0.75, 1.  ])"
+      ]
+     },
+     "execution_count": 8,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "c = np.linspace(0, 1, 5)\n",
+    "c"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 9,
+   "id": "65014b69-519b-43c3-9264-4267d3148014",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[1 4 9]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(a **2)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 10,
+   "id": "c244c937-feea-4bc2-9982-f59fb93f01b7",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[2 3]\n"
+     ]
+    }
+   ],
+   "source": [
+    "# boolean masking\n",
+    "\n",
+    "print(a[a >1])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 11,
+   "id": "7ca9f193-0cbf-4550-b52b-447e15490216",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "2.0\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(np.mean(a))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "212ae439-0869-453c-af03-43e982402e9f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# FUNCTIONS"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 15,
+   "id": "8126a116-6fcc-4b8d-9da1-5e4c90c53d18",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "27"
+      ]
+     },
+     "execution_count": 15,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "def square(x):\n",
+    "    if x % 2 ==0:\n",
+    "        return x**2\n",
+    "    else:\n",
+    "        return x**3\n",
+    "\n",
+    "#square(3)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 17,
+   "id": "13085a32-97b2-4f0a-a309-4cb29ee76daf",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "<numpy.vectorize at 0x1e1802e64a0>"
+      ]
+     },
+     "execution_count": 17,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "vec_sq = np.vectorize(square)\n",
+    "vec_sq"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 19,
+   "id": "9a48d68e-e450-4f64-b3dc-2d7cfa65978f",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "array([ 1,  4, 27])"
+      ]
+     },
+     "execution_count": 19,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "vec_sq(a)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "3baf595a-c6a2-4425-b978-d3de9e72544a",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# function  has to work on each element"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 22,
+   "id": "d2a35cd7-a45f-4d1e-8527-e4271ce4e1ee",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "(2.0, 6)"
+      ]
+     },
+     "execution_count": 22,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# function retruning multiple values\n",
+    "\n",
+    "def stats(arr):\n",
+    "    return arr.mean(), arr.sum()\n",
+    "\n",
+    "stats(np.array([1,2,3]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e2638876-8071-4f08-8774-79424d03580f",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# single aggregated value from array is returned"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 25,
+   "id": "c7fb85fc-99fd-4008-8715-febc3e67eff6",
+   "metadata": {},
+   "outputs": [
+    {
+     "data": {
+      "text/plain": [
+       "0.6666666666666666"
+      ]
+     },
+     "execution_count": 25,
+     "metadata": {},
+     "output_type": "execute_result"
+    }
+   ],
+   "source": [
+    "# custom accuracy function\n",
+    "\n",
+    "def accuracycustom(y_true, y_pred):\n",
+    "    return np.sum(y_true==y_pred)/len(y_true)\n",
+    "\n",
+    "\n",
+    "accuracycustom(np.array([1,0,0]), np.array([1,1,0]))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 26,
+   "id": "8a2d35e9-4246-4510-be84-f91eb2eaafaf",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "from sklearn.tree import DecisionTreeRegressor"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "cd675b1c-d141-41ed-a0ef-27566eed67f8",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pipeline = Pipeline(steps = [\n",
+    "    ('preprocessor', preprocessor),\n",
+    "    ('model', DecisionTreeRegressor(max_depth = 4))   \n",
+    "])"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f22735db-6d5e-43d7-a98e-f4530a8df1c1",
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pipeline.fit(X_train, y_train)\n",
+    "y_pred = pipeline.predict(X_test)\n",
+    "\n",
+    "print(\"r2_score\", r2_score(y_true, y_pred)"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": 28,
+   "id": "c82a658b-ac15-43f4-acd4-ec7edf4946a6",
+   "metadata": {},
+   "outputs": [
+    {
+     "name": "stdout",
+     "output_type": "stream",
+     "text": [
+      "[ 0.          3.33333333  6.66666667 10.        ]\n"
+     ]
+    }
+   ],
+   "source": [
+    "print(np.linspace(0,10,4))"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4855ccee-39f5-4fcc-a81a-fc224d9b3e37",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e0d9b952-8692-4c5c-879c-46184e3d449f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "b88ec918-6d79-4977-91cb-94cb830205d9",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f124ea0f-ab92-4abd-b299-2c5d1b2ac8fe",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "83a4ef9d-e138-471d-af20-e24b2ce27779",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6a58e9f8-3f93-4bd0-9425-54a897ac4b4f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "6a69e6c9-d369-410d-9770-2d7eb02ad759",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e104b53a-8d0b-46df-a48d-aad5dd9ecbbd",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "01a51a08-f898-45fc-b59d-1f24755ae73b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "71920341-cec7-4275-aa2f-f85776b684bb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "8f7aacdb-f0f3-49fc-9037-80712ddee82b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "7c2576a4-6327-4d76-b030-5fe19a936858",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ec0f809a-4071-4e3f-88e6-e7138b21af55",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c5681e39-f3db-48a5-92b2-f09346fc2c1f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "198434cb-fd23-4fb8-838a-1124fbc012d7",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "10454831-41ec-4763-beb7-5b720c3093d1",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0004889b-39a6-4402-8491-347a3b6cb866",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9c73b61c-ca51-4904-b2f2-b28836d1413a",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "ebd67c75-10fb-47a1-afba-912835fdede3",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c3d100f0-a3a3-4779-9e62-4f30c514df53",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "c6695adc-0990-49e3-ac36-3b7672697f83",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "643f8296-6b01-4453-af54-57637e3e4eeb",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "84b62cdf-479d-4f61-b3ed-42dbd9598fe5",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "0cd95ab0-42cd-425c-8997-b03a4716558c",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "e493dbf5-5d46-432e-b9dc-e7e3f464eed6",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "9d3f533e-2008-4f0a-abe2-2c14a82c6fed",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "a5673346-fd20-4691-83de-410b13428a0f",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4839cdfc-8bc7-46f9-b209-8cd67fea7be4",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "726b7c30-e5d4-4d52-b931-d107788b5b01",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f18ccd81-cef8-42cd-bc23-6b1e97d013fc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "de6bc2c6-18ea-49be-ad92-ceec131f1a5b",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "f8db9371-783f-44e8-b175-ea48d2609b01",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5da3d22f-0fdd-4949-b7be-156c9980afb2",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "60b5e8cc-13c5-4a80-9c82-7b1cacbd45d0",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "4d8c356b-264b-4ff2-9643-cd6090950497",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "5f17d32f-26d2-4743-9ec5-73f28f9435bc",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "id": "2836ba90-35eb-492d-9619-901f49a9b499",
+   "metadata": {},
+   "outputs": [],
+   "source": []
+  }
+ ],
+ "metadata": {
+  "kernelspec": {
+   "display_name": "Python (ml-clean)",
+   "language": "python",
+   "name": "ml_clean"
+  },
+  "language_info": {
+   "codemirror_mode": {
+    "name": "ipython",
+    "version": 3
+   },
+   "file_extension": ".py",
+   "mimetype": "text/x-python",
+   "name": "python",
+   "nbconvert_exporter": "python",
+   "pygments_lexer": "ipython3",
+   "version": "3.10.19"
+  }
+ },
+ "nbformat": 4,
+ "nbformat_minor": 5
+}
